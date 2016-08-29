@@ -17,6 +17,13 @@ class MealViewController: UIViewController,
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    /*
+     This value is either passed by 'MealTableViewController' in 'prepareForSugue(_:sender:)'
+     or constructed as part of adding a new mail.
+    */
+    var meal: Meal?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +31,9 @@ class MealViewController: UIViewController,
         // Handle the text field's user input through delegate callbacks.
         nameTextField.delegate = self
         // ViewController is now a delegate for nameTextField
+        
+        // Enable the Save button only if the text fiel has a valid Meal name/
+        checkValidMealName()
     }
    
     // MARK: UITextFieldDelegate
@@ -31,8 +41,21 @@ class MealViewController: UIViewController,
         textField.resignFirstResponder()
         return true
     }
+    
     func textFieldDidEndEditing(textField: UITextField) {
-        
+        checkValidMealName()
+        navigationItem.title = textField.text
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        //Disable the Save Button while editing.
+        saveButton.enabled = false
+    }
+    
+    func checkValidMealName() {
+        //Diable the Save button if the text field is empty.
+        let text = nameTextField.text ?? ""
+        saveButton.enabled = !text.isEmpty
     }
     
     // MARK: UIImagePickerControllerDelegate
@@ -51,6 +74,25 @@ class MealViewController: UIViewController,
         
         // Dismiss the picker.
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: Navigation
+    
+    @IBAction func cancel(sender: UIBarButtonItem) {
+        // This code will dismiss the meal scenne without storing any information.
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // This method lets you configure a view contrlller before it's presented.
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if saveButton === sender {
+            let name = nameTextField.text ?? ""
+            let photo = photoImageView.image
+            let rating = ratingControl.rating
+            
+            // Set the meal to be passed to MealTebleViewController after the unwind seque
+            meal = Meal(name: name, photo: photo, rating: rating)
+        }
     }
     
     // MARK: Actions

@@ -112,4 +112,15 @@ class MealTableViewController: UITableViewController {
     }
     */
 
+    @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.sourceViewController as? MealViewController, meal = sourceViewController.meal {
+            // Add a new meal.
+            let newIndexPath = NSIndexPath(forRow: meals.count, inSection: 0)
+            // Adds the new meal to the existing list of meals in the data model
+            meals.append(meal)
+            /* Animates the addition of a new row to the table view of the cell that contains information about the new mail.  The .Bottom annimation options shows the inserted row slide in from the bottom.
+            */
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+        }
+    }
 }
