@@ -10,4 +10,4 @@ Reference:  https://developer.apple.com/library/ios/referencelibrary/GettingStar
 
 
 ## Summary
-This is a repository to log my learning of the Apple Swift language.  I went through the application tutorial from the Apple developer site.  It's incredible how easy it is to build mobile is Swift.
+This is a repository to log my learning of the Apple Swift language.  I went through the application tutorial from the Apple developer site.  It's incredible how easy it is to build mobile applications with Swift.
